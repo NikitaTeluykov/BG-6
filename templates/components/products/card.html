@@ -61,6 +61,42 @@
         {{/if}}
 
 
+        <div class="product-badges">
+            {{#or price.sale_price_with_tax.value price.sale_price_without_tax.value}}
+                <span class="product-badge sale first">Sale</span>
+            {{/or}}
+
+            {{#filter custom_fields 'Badge' property='name'}}
+                {{#if value '===' 'Free shipping'}}
+                    <span class="product-badge free-shipping second">Free shipping</span>
+                {{else if value '===' 'Closeout'}}
+                    <span class="product-badge closeout fourth">Closeout</span>
+                {{/if}}
+            {{/filter}}
+        </div>
+
+        {{inject "date_added" date_added}}
+
+        <script>
+          var jsContext = JSON.parse({{jsContext}});
+          var date_added = jsContext.date_added;
+
+          var day = date_added.substring(0,3), month = date_added.slice(-8, -5),
+            year = date_added.slice(-4);
+
+          var date = new Date(`${day.replace(/[^\d]/g, '')} ${month} ${year}`)
+
+          if ((new Date().getTime() - date.getTime())/(1000*24*60*60) <= 5) {
+            let badges = $('.product-badges');
+            badges.append('<span class="product-badge new third">New</span>')
+
+            var third = badges.find('.product-badge.third');
+
+            third.siblings(".fourth").remove();
+            badges.find('.product-badge:nth-child(n+2)').remove();
+          }
+        </script>
+
         <a href="{{url}}"
            class="card-figure__link"
            aria-label="{{> components/products/product-info}}"
