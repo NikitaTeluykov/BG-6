@@ -167,3 +167,41 @@
         }
     }
 }
+
+.product-badge {
+    display: none;
+}
+
+#product-listing-container .product-badge {
+    display: block;
+
+    &:nth-child(n+2) {
+        display: none;
+    }
+}
+
+.product-badge {
+    position: absolute;
+    right: 5px;
+    color: white;
+    padding: 10px;
+    z-index: 10;
+    border-radius: 100%;
+    line-height: 29px;
+
+    &.sale {
+        background: red;
+    }
+
+    &.free-shipping {
+        background: blue;
+    }
+
+    &.closeout {
+        background: #000000;
+    }
+
+    &.new {
+        background: gray;
+    }
+}
